@@ -35,14 +35,14 @@ function play() {
     chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
     resultArea.textContent = 'GAME OVER🤣';
     playBtn.disabled = true;
-  } else {
-    if (userValue < computerNum) {
-      resultArea.textContent = '결과: UP🔼';
-    } else if (userValue > computerNum) {
-      resultArea.textContent = '결과: DOWN🔽';
-    } else if (userValue == computerNum) {
-      resultArea.textContent = '결과: 정답🎉';
-    }
+  }
+
+  if (userValue < computerNum) {
+    resultArea.textContent = '결과: UP🔼';
+  } else if (userValue > computerNum) {
+    resultArea.textContent = '결과: DOWN🔽';
+  } else if (userValue == computerNum) {
+    resultArea.textContent = '결과: 정답🎉';
   }
 }
 
@@ -53,6 +53,7 @@ function reset() {
   answerArea.textContent = `정답: ${computerNum}`;
   resultArea.textContent = '결과';
   chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
+  playBtn.disabled = false;
 }
 
 reset();
