@@ -56,4 +56,10 @@ function reset() {
   playBtn.disabled = false;
 }
 
-reset();
+pickRandomNumber();
+chance = 3;
+userNum.value = '';
+answerArea.textContent = `정답: ${computerNum}`;
+resultArea.textContent = '결과';
+chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
+playBtn.disabled = false;
