@@ -23,19 +23,13 @@ resetBtn.addEventListener('click', reset);
 
 const pickRandomNumber = () => {
   computerNum = Math.floor(Math.random() * 100) + 1;
+  answerArea.textContent = `정답: ${computerNum}`;
 };
 
 function play() {
   const userValue = userNum.value;
   chance--;
-
-  if (chance < 1) gameOver = true;
-  if (chance > 0) chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
-  if (gameOver) {
-    chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
-    resultArea.textContent = 'GAME OVER🤣';
-    playBtn.disabled = true;
-  }
+  chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
 
   if (userValue < computerNum) {
     resultArea.textContent = '결과: UP🔼';
@@ -43,23 +37,21 @@ function play() {
     resultArea.textContent = '결과: DOWN🔽';
   } else if (userValue == computerNum) {
     resultArea.textContent = '결과: 정답🎉';
+    gameOver = true;
   }
+
+  if (chance === 0) gameOver = true;
+  if (gameOver) playBtn.disabled = true;
 }
 
 function reset() {
   pickRandomNumber();
   chance = 3;
   userNum.value = '';
-  answerArea.textContent = `정답: ${computerNum}`;
   resultArea.textContent = '결과';
   chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
+  gameOver = false;
   playBtn.disabled = false;
 }
 
 pickRandomNumber();
-chance = 3;
-userNum.value = '';
-answerArea.textContent = `정답: ${computerNum}`;
-resultArea.textContent = '결과';
-chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
-playBtn.disabled = false;
