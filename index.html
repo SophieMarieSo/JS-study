@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>숫자 맞추기 게임🎮</h1>
-    <div id="answer-area"></div>
-    <div id="chance-area"></div>
-    <div id="result-area">결과</div>
-    <input type="number" id="user-number" />
-    <button id="play-btn">GO</button>
-    <button id="reset-btn">RESET</button>
+    <div class="game-box">
+      <h1>숫자 맞추기 게임🎮</h1>
+      <div id="answer-area" class="answer"></div>
+      <div id="chance-area" class="chance"></div>
+      <div id="result-area" class="result">결과</div>
+      <div class="input-area">
+        <input type="number" id="user-input" />
+        <button id="play-btn">GO</button>
+        <button id="reset-btn">RESET</button>
+      </div>
+    </div>
     <script src="main.js"></script>
   </body>
 </html>

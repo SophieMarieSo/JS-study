@@ -11,46 +11,73 @@
 let computerNum = 0;
 let chance = 3;
 let gameOver = false;
+let isAnswer = false;
+let history = [];
 const playBtn = document.getElementById('play-btn');
 const resetBtn = document.getElementById('reset-btn');
-const userNum = document.getElementById('user-number');
+const userInput = document.getElementById('user-input');
 const resultArea = document.getElementById('result-area');
 const answerArea = document.getElementById('answer-area');
 const chanceArea = document.getElementById('chance-area');
 
 playBtn.addEventListener('click', play);
 resetBtn.addEventListener('click', reset);
+userInput.addEventListener('focus', clearInput);
 
 const pickRandomNumber = () => {
   computerNum = Math.floor(Math.random() * 100) + 1;
   answerArea.textContent = `정답: ${computerNum}`;
 };
 
+function clearInput() {
+  userInput.value = '';
+}
+
 function play() {
-  const userValue = userNum.value;
+  const userValue = userInput.value;
+
+  if (userValue < 1 || userValue > 100) {
+    resultArea.textContent = '1과 100 사이 숫자를 입력하시오😎';
+    chanceArea.textContent = `${chance}번의 기회가 남았습니다😮`;
+    return;
+  }
+
+  if (history.includes(userValue)) {
+    resultArea.textContent =
+      '이미 입력한 숫자입니다. 다른 숫자를 입력해 주세요';
+    chanceArea.textContent = `${chance}번의 기회가 남았습니다😮`;
+    return;
+  }
+
   chance--;
-  chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
+  chanceArea.textContent = `${chance}번의 기회가 남았습니다😮`;
 
   if (userValue < computerNum) {
     resultArea.textContent = '결과: UP🔼';
   } else if (userValue > computerNum) {
     resultArea.textContent = '결과: DOWN🔽';
   } else if (userValue == computerNum) {
-    resultArea.textContent = '결과: 정답🎉';
     gameOver = true;
+    isAnswer = true;
   }
 
+  history.push(userValue);
+
   if (chance === 0) gameOver = true;
-  if (gameOver) playBtn.disabled = true;
+  if (gameOver) {
+    playBtn.disabled = true;
+    resultArea.textContent = isAnswer ? '결과: 정답🎉' : 'GAME OVER😥';
+  }
 }
 
 function reset() {
   pickRandomNumber();
   chance = 3;
-  userNum.value = '';
+  userInput.value = '';
   resultArea.textContent = '결과';
-  chanceArea.textContent = `${chance}회 기회가 남았습니다😮`;
+  chanceArea.textContent = `${chance}번의 기회가 남았습니다😮`;
   gameOver = false;
+  isAnswer = false;
   playBtn.disabled = false;
 }
 
