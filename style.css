@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5xHGQ4HBJOEPc0XF5_rB1fbKbLzS5rMZ9Jg&s);
+  background-repeat: repeat-y;
+  background-size: cover;
+}
+
+.container {
+  min-height: 100vh;
+  background-color: #fff;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.task-area {
+  border: 1px solid lightgrey;
+}
+
+.task-tabs {
+  display: flex;
+  border-bottom: 1px solid lightgrey;
+  position: relative;
+}
+
+.task-tabs div {
+  padding: 1em;
+}
+
+#underline {
+  height: 3px;
+  background-color: lightpink;
+  border-radius: 50px;
+  position: absolute;
+  width: 60px;
+  left: 0;
+  top: 45px;
+  padding: 0;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+}
