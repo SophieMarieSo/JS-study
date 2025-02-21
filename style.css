@@ -45,6 +45,7 @@ button {
 
 .task-tabs div {
   padding: 1em;
+  cursor: pointer;
 }
 
 #underline {

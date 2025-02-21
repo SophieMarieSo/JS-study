@@ -10,6 +10,16 @@ const taskInput = document.getElementById('task-input');
 const addBtn = document.getElementById('add-btn');
 addBtn.addEventListener('click', addTask);
 let taskList = [];
+let tabs = document.querySelectorAll('.task-tabs div');
+let mode = 'all';
+let filteredList = [];
+const underline = document.getElementById('underline');
+
+for (let i = 1; tabs.length; i++) {
+  tabs[i].addEventListener('click', function (e) {
+    filter(e);
+  });
+}
 
 function generateID() {
   // Math.random should be unique because of its seeding algorithm.
@@ -19,12 +29,14 @@ function generateID() {
 }
 
 function addTask() {
+  const value = taskInput.value.trim();
+  if (value === '') return;
+
   const task = {
     id: generateID(),
-    taskValue: taskInput.value.trim(),
+    taskValue: value,
     isComplete: false,
   };
-  if (task.taskValue === '') return;
 
   taskList.push(task);
   taskInput.value = '';
@@ -32,24 +44,31 @@ function addTask() {
 }
 
 function render() {
+  let list = [];
+  if (mode === 'all') {
+    list = taskList;
+  } else {
+    list = filteredList;
+  }
+
   let resultHTML = '';
-  for (let i = 0; i < taskList.length; i++) {
-    if (taskList[i].isComplete == true) {
+  for (let i = 0; i < list.length; i++) {
+    if (list[i].isComplete) {
       resultHTML += `<div class="task">
-            <div class='done'>${taskList[i].taskValue}</div>
+            <div class='done'>${list[i].taskValue}</div>
             <div class='task-btn'>
-              <button onclick="toggleComplete('${taskList[i].id}')"><i class="fa-solid fa-rotate-right"></i></button>
-              <button onclick='deleteTask'><i class="fa-solid fa-trash-can"></i></button>
+              <button onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-rotate-right"></i></button>
+              <button onclick="deleteTask('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
             </div>
           </div>`;
     }
 
-    if (taskList[i].isComplete == false) {
+    if (list[i].isComplete == false) {
       resultHTML += `<div class="task">
-            <div class='task-content'>${taskList[i].taskValue}</div>
+            <div class='task-content'>${list[i].taskValue}</div>
             <div class='task-btn'>
-              <button onclick="toggleComplete('${taskList[i].id}')"><i class="fa-solid fa-check"></i></button>
-              <button onclick="deleteTask('${taskList[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
+              <button onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-check"></i></button>
+              <button onclick="deleteTask('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
             </div>
           </div>`;
     }
@@ -65,10 +84,40 @@ function toggleComplete(id) {
       break;
     }
   }
-  render();
+  filter();
 }
 
 function deleteTask(id) {
-  taskList = taskList.filter((task) => task.id != id);
+  for (let i = 0; i < taskList.length; i++) {
+    if (taskList[i].id === id) {
+      taskList.splice(i, 1);
+    }
+  }
+  filter();
+}
+
+function filter(e) {
+  if (e) {
+    mode = e.target.id;
+    underline.style.width = e.target.offsetWidth + 'px';
+    underline.style.left = e.target.offsetLeft + 'px';
+    underline.style.top =
+      e.target.offsetTop + (e.target.offsetHeight - 4) + 'px';
+  }
+
+  filteredList = [];
+  if (mode === 'onGoing') {
+    for (let i = 0; i < taskList.length; i++) {
+      if (taskList[i].isComplete == false) {
+        filteredList.push(taskList[i]);
+      }
+    }
+  } else if (mode === 'done') {
+    for (let i = 0; i < taskList.length; i++) {
+      if (taskList[i].isComplete) {
+        filteredList.push(taskList[i]);
+      }
+    }
+  }
   render();
 }
